@@ -1,6 +1,8 @@
 package kseoni.ch.pkmn;
 
-public class AttackSkill {
+import java.io.Serializable;
+
+public class AttackSkill implements Serializable {
 
     private String name;
 
