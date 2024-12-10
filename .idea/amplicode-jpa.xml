@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AmplicodeJpaIdeaProjectConfig">
+  <component name="AmplicodeJpaIdeaProjectConfig" snapshotDbType="POSTGRES" ddlActionDbType="postgres" newRepositoryParent="org.springframework.data.jpa.repository.JpaRepository" isInitGenerateDdl="true">
+    <option name="sourceDiffType" value="DB" />
+    <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
+    <option name="sourceDbValue" value="f5c44d5a-a766-4709-81f4-faff93ceb26a" />
+    <option name="sourceModelValue" value="Default" />
+    <option name="targetDbValue" value="f5c44d5a-a766-4709-81f4-faff93ceb26a" />
+    <option name="snapshotDbValue" value="f5c44d5a-a766-4709-81f4-faff93ceb26a" />
+    <option name="snapshotModelValue" value="Default" />
+    <option name="reverseEngineeringLastDbConnectionId" value="2d884fe5-7062-47be-8a85-186d444ddccd" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/kseoni/ch/pkmn/entities" />
+    <option name="newEntityIdStrategy" value="Auto" />
   </component>
 </project>

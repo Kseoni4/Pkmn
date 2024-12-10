@@ -1,8 +1,19 @@
-package kseoni.ch.pkmn;
+package kseoni.ch.pkmn.models;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import kseoni.ch.pkmn.converters.SkillDeserializer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Value;
 
 import java.io.Serializable;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Card implements Serializable {
 
     private PokemonStage pokemonStage;
@@ -15,6 +26,7 @@ public class Card implements Serializable {
 
     private Card evolvesFrom;
 
+    @JsonDeserialize(using = SkillDeserializer.class)
     private List<AttackSkill> skills;
 
     private EnergyType weaknessType;
@@ -27,6 +39,9 @@ public class Card implements Serializable {
 
     private char regulationMark;
 
+    @JsonProperty("owner")
     private Student pokemonOwner;
+
+    private String cardNumber;
 
 }

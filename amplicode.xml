@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AmplicodeDatabaseMigrationSettings" lastSelectedDirectory="src/main/resources/db/migration" />
+  <component name="AmplicodeJpaPluginProjectSettings">
+    <option name="lastSelectedLanguage" value="Java" />
+  </component>
+  <component name="AmplicodePersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit moduleName="Pkmn" name="Default">
+        <packages>
+          <package value="kseoni.ch.pkmn.entities" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>

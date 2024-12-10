@@ -1,4 +1,4 @@
-package kseoni.ch.pkmn;
+package kseoni.ch.pkmn.models;
 
 public enum PokemonStage {
     BASIC,

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AmplicodeJpaDataSourceConfig">
+    <data-sources>
+      <data-source id="f5c44d5a-a766-4709-81f4-faff93ceb26a" name="pkmn_db" url="jdbc:postgresql://pkmn-database/pkmn_db" driverClass="org.postgresql.Driver" />
+      <data-source id="2d884fe5-7062-47be-8a85-186d444ddccd" name="Pkmn" url="jdbc:postgresql://localhost/pkmn_db" driverClass="org.postgresql.Driver" />
+    </data-sources>
+    <data-source-infos>
+      <data-source-info id="f5c44d5a-a766-4709-81f4-faff93ceb26a" persistence-unit-name="Default" />
+    </data-source-infos>
+  </component>
+</project>

@@ -1,0 +1,53 @@
+services:
+  pkmn-app:
+    image: pkmn-tag
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - pkmn-db-migrations:/db/migration
+    environment:
+      - DATABASE_URL=pkmn-database
+      - TOKEN_SECRET=pkmn-token-secret-prod
+    healthcheck:
+      test:
+        [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "/ping", "||", "exit", "1" ]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    depends_on:
+      pkmn-database:
+        condition: service_healthy
+    labels:
+      amplicode.image: springboot
+    networks:
+      - pkmn-net
+
+  pkmn-database:
+    image: postgres:17.2-alpine
+    restart: "no"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pkmn-database_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: pkmn_user
+      POSTGRES_PASSWORD: pkmn_password
+      POSTGRES_DB: pkmn_db
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    networks:
+      - pkmn-net
+volumes:
+  pkmn-database_data:
+  pkmn-db-migrations:
+networks:
+  pkmn-net:
+
+
