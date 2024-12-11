@@ -92,6 +92,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        log.info("Authenticated with JWT");
+
         filterChain.doFilter(request, response);
     }
 

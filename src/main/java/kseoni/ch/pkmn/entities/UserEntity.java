@@ -1,8 +1,7 @@
 package kseoni.ch.pkmn.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -10,6 +9,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class UserEntity {
     @Id
@@ -20,9 +22,9 @@ public class UserEntity {
     private String password;
 
     @Column(name = "enabled", nullable = false)
-    private Boolean enabled = true;
+    private Boolean enabled = false;
 
-    @OneToMany(mappedBy = "username", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "username")
     private Set<AuthorityEntity> authorities = new LinkedHashSet<>();
 
 }

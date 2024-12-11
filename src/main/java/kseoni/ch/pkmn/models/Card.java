@@ -3,10 +3,7 @@ package kseoni.ch.pkmn.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import kseoni.ch.pkmn.converters.SkillDeserializer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;

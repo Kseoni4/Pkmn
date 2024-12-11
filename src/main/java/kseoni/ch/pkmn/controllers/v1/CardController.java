@@ -6,7 +6,9 @@ import kseoni.ch.pkmn.dao.CardDao;
 import kseoni.ch.pkmn.dto.StudentDto;
 import kseoni.ch.pkmn.entities.CardEntity;
 import kseoni.ch.pkmn.dto.CardEntityDto;
+import kseoni.ch.pkmn.models.Card;
 import kseoni.ch.pkmn.repositories.CardEntityRepository;
+import kseoni.ch.pkmn.services.CardService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
@@ -28,6 +30,13 @@ public class CardController {
     private final CardDao cardDao;
 
     private final CardEntityRepository cardEntityRepository;
+
+    private final CardService cardService;
+
+    @GetMapping("/img")
+    public String getCardImage(@RequestBody Card card){
+        return cardService.getCardImage(card);
+    }
 
     @GetMapping
     public PagedModel<CardEntityDto> getCardList(Pageable pageable) {

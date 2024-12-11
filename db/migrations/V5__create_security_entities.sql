@@ -11,8 +11,7 @@ CREATE TABLE users (
 --createTable(authorities)
 CREATE TABLE authorities (
   authority VARCHAR(50) NOT NULL,
-   username VARCHAR(50) NOT NULL,
-   CONSTRAINT authorities_pkey PRIMARY KEY (authority)
+   username VARCHAR(50) NOT NULL
 );
 
 --addForeignKeyConstraint(fk_authorities_users)

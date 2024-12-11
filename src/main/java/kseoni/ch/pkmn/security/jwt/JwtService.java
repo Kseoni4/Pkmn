@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import jakarta.annotation.PostConstruct;
 import kseoni.ch.pkmn.dao.UserDao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,17 +17,23 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.JwtValidationException;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtService {
 
     @Value("${token.secret}")
     private String SECRET_KEY;
+
+    @Value("${token.expiration}")
+    private long TOKEN_EXPIRATION_MINUTES;
 
     private Algorithm algorithm;
 
@@ -42,18 +49,16 @@ public class JwtService {
                 .withIssuer("pkmn")
                 .withSubject("admin")
                 .withClaim("authority", "[ROLE_ADMIN]")
-                .withExpiresAt(LocalDateTime.now().plusMinutes(5).toInstant(ZoneOffset.UTC))
+                .withExpiresAt(Instant.now().plus(TOKEN_EXPIRATION_MINUTES, ChronoUnit.MINUTES))
                 .sign(algorithm);
     }
 
-    public String createToken(String username, Collection<? extends GrantedAuthority> authority){
+    public String createToken(String username, GrantedAuthority authority){
         return JWT.create()
                 .withIssuer("pkmn")
                 .withSubject(username)
-                .withClaim("authority", authority.stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .collect(Collectors.toList()))
-                .withExpiresAt(LocalDateTime.now().plusMinutes(5).toInstant(ZoneOffset.UTC))
+                .withClaim("authority", authority.getAuthority())
+                .withExpiresAt(LocalDateTime.now().plusMinutes(TOKEN_EXPIRATION_MINUTES).toInstant(ZoneOffset.UTC))
                 .sign(algorithm);
     }
 
@@ -63,7 +68,10 @@ public class JwtService {
                     .require(algorithm)
                     .withIssuer("pkmn")
                     .build();
+
             DecodedJWT decodedJWT = verifier.verify(jwt);
+
+            log.info("JWT expires at {}", decodedJWT.getExpiresAt());
 
             if(!userDao.existsUser(decodedJWT.getSubject())){
                 throw new UsernameNotFoundException("Subject " +decodedJWT.getSubject() + " not found");
@@ -71,7 +79,8 @@ public class JwtService {
 
             return decodedJWT;
         } catch (JWTVerificationException e) {
-            throw new JWTVerificationException(e.getMessage());
+            log.error("Error while verifying {}", e.getMessage());
+            return null;
         }
     }
 }

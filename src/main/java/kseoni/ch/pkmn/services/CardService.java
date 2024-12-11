@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CardService {
 
+    String getCardImage(Card card);
+
     CardEntityDto getCardInfo(String name);
 
     List<CardEntityDto> getCardsInfo();

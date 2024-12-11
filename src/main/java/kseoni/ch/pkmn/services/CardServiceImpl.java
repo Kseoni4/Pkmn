@@ -1,5 +1,6 @@
 package kseoni.ch.pkmn.services;
 
+import kseoni.ch.pkmn.apiclient.PokemonApiClient;
 import kseoni.ch.pkmn.dao.CardDao;
 import kseoni.ch.pkmn.dto.StudentDto;
 import kseoni.ch.pkmn.dto.CardEntityDto;
@@ -15,6 +16,12 @@ import java.util.Objects;
 @Service
 public class CardServiceImpl implements CardService {
     private final CardDao cardDao;
+
+    private final PokemonApiClient pokemonApiClient;
+
+    public String getCardImage(Card card){
+        return pokemonApiClient.getImageFromApi(card);
+    }
 
     @Override
     public CardEntityDto getCardInfo(String name) {
