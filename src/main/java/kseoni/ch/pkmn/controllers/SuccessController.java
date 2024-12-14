@@ -39,9 +39,9 @@ public class SuccessController {
 
         System.out.println("Encoded value: "+encodedValue);
 
-        response.addCookie(new Cookie("Authorization", encodedValue));
+        response.addCookie(new Cookie("jwt", encodedValue));
 
-        response.addHeader("jwt", cookieValue);
+        response.addHeader("Authorization", cookieValue);
 
         return new RedirectView("/hello");
     }

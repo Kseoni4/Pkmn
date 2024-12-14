@@ -24,22 +24,27 @@ public class PokemonApiClient {
 
     @SneakyThrows
     public String getImageFromApi(Card card){
+        return getImageFromApi(card.getName(), card.getCardNumber());
+    }
 
+    public String getImageFromApi(String cardName, String cardNumber){
         String query = PokemonTcgQuery.builder()
-                        .setName(card.getName())
-                        .setNumber(card.getCardNumber())
+                .setName(cardName)
+                .setNumber(cardNumber)
                 .build();
 
-         RestClient request = RestClient.builder()
+        RestClient request = RestClient.builder()
                 .baseUrl(API_URL)
                 .build();
 
-         JsonNode json = request.get()
-                 .uri(query)
-                 .retrieve()
-                 .body(JsonNode.class);
+        log.info("Retrieve image for {} ({})", cardName, cardNumber);
 
-        if(Objects.isNull(json)){
+        JsonNode json = request.get()
+                .uri(query)
+                .retrieve()
+                .body(JsonNode.class);
+
+        if(Objects.isNull(json) || Objects.isNull(json.findParent("images"))){
             return "None";
         }
 

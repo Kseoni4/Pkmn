@@ -1,7 +1,10 @@
 package kseoni.ch.pkmn.configurations;
 
+import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import kseoni.ch.pkmn.PkmnApplication;
 import kseoni.ch.pkmn.security.filters.JwtAuthenticationFilter;
+import kseoni.ch.pkmn.views.LoginView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +12,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
@@ -20,6 +24,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
@@ -27,31 +32,40 @@ import javax.sql.DataSource;
 @Import({PkmnApplication.class, ApplicationConfiguration.class})
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+public class SecurityConfiguration extends VaadinWebSecurity {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    //private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final UserDetailsService jdbcUserDetailsManager;
 
-    private final DataSource dataSource;
-
-    @Bean
-    public SecurityFilterChain authorizeRequestsFilterChain(HttpSecurity http) throws Exception {
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                 .requestMatchers("/ping").permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/cards")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/cards-grid")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/public/**")).permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/cards").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/cards/*").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/cards").hasRole("ADMIN")
                 .requestMatchers("/error", "/error**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
-                .anyRequest().authenticated());
+                .requestMatchers("/rest/admin-ui/cardEntities/**").permitAll()
+                .requestMatchers("/rest/admin-ui/studentEntities/**").permitAll());
         http.csrf(AbstractHttpConfigurer::disable);
         http.formLogin(customizer -> customizer.successForwardUrl("/success"));
         http.sessionManagement(sessionManagement -> sessionManagement
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
         );
         http.userDetailsService(jdbcUserDetailsManager);
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+        //http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        super.configure(http);
+
+        setLoginView(http, LoginView.class);
+    }
+
+    @Override
+    protected void configure(WebSecurity web) throws Exception {
+        super.configure(web);
     }
 }

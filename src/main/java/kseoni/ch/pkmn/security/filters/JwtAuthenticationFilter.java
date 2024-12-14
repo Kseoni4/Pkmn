@@ -32,7 +32,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -62,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         log.debug("token is {}", token);
 
-        if (Objects.isNull(token) || token.startsWith("Basic ")) {
+        if (Objects.isNull(token) || token.isEmpty() || token.startsWith("Basic ")) {
             filterChain.doFilter(request, response);
             return;
         }

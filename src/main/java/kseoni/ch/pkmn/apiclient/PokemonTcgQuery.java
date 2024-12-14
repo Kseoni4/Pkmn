@@ -43,7 +43,7 @@ public class PokemonTcgQuery {
     public String build() {
         StringBuilder sb = new StringBuilder();
         sb.append("?q=");
-        sb.append("name:").append(name);
+        sb.append("name:").append("\"").append(name).append("\"");
         if (set != null) sb.append(" set:").append(set);
         if (number != null) sb.append(" number:").append(number);
         if (hp != null) sb.append(" hp:").append(hp);

@@ -2,25 +2,44 @@ package kseoni.ch.pkmn.services;
 
 import kseoni.ch.pkmn.apiclient.PokemonApiClient;
 import kseoni.ch.pkmn.dao.CardDao;
+import kseoni.ch.pkmn.dao.ImageDao;
 import kseoni.ch.pkmn.dto.StudentDto;
 import kseoni.ch.pkmn.dto.CardEntityDto;
 import kseoni.ch.pkmn.entities.CardEntity;
 import kseoni.ch.pkmn.models.Card;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class CardServiceImpl implements CardService {
+
+    private final ImageDao imageDao;
+
     private final CardDao cardDao;
 
     private final PokemonApiClient pokemonApiClient;
 
     public String getCardImage(Card card){
-        return pokemonApiClient.getImageFromApi(card);
+        return getCardImage(card.getName(), card.getCardNumber());
+    }
+
+    public String getCardImage(String cardName, String cardNumber){
+        String url = imageDao.loadImgUrl(cardName);
+
+        if(url == null || url.isEmpty()){
+            log.info("Image not found in cache, get from api");
+            url = pokemonApiClient.getImageFromApi(cardName, cardNumber);
+            imageDao.writeImgUrlToCache(cardName, url);
+        }
+
+        return url;
+
     }
 
     @Override

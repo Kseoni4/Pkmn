@@ -10,6 +10,8 @@ public interface CardService {
 
     String getCardImage(Card card);
 
+    String getCardImage(String cardName, String cardNumber);
+
     CardEntityDto getCardInfo(String name);
 
     List<CardEntityDto> getCardsInfo();
