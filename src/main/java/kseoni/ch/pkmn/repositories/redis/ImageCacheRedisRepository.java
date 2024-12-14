@@ -22,7 +22,7 @@ public class ImageCacheRedisRepository implements RedisRepository<String>
     HashOperations<String, String, String> hashOperations;
 
     @Scheduled(fixedDelay = 350000L)
-    private void clearImageCache(){
+    void clearImageCache(){
         if(!hashOperations.getOperations().hasKey(baseKey)){
            log.info("Nothing to clear");
            return;
