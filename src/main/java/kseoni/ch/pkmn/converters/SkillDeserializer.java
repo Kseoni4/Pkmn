@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class SkillDeserializer extends JsonDeserializer<AttackSkill> {
     @Override
-    public AttackSkill deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+    public AttackSkill deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         JsonNode skillNode = ctxt.readTree(p);
 
         AttackSkill skill = new AttackSkill();
