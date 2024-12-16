@@ -9,7 +9,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.spring.annotation.UIScope;
-import org.springframework.stereotype.Component;
 
 @Route("login")
 @PageTitle("Login")
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 @UIScope
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
-    private LoginForm login = new LoginForm();
+    private final LoginForm login = new LoginForm();
 
     public LoginView() {
         addClassName("login-view");
@@ -28,7 +27,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
         login.setAction("login");
 
-        add(new H1("Test Application"), login);
+        add(new H1("Pkmn Admin UI"), login);
     }
 
     @Override

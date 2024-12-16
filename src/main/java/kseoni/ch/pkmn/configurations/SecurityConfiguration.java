@@ -1,32 +1,19 @@
 package kseoni.ch.pkmn.configurations;
 
-import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
 import kseoni.ch.pkmn.PkmnApplication;
-import kseoni.ch.pkmn.security.filters.JwtAuthenticationFilter;
 import kseoni.ch.pkmn.views.LoginView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import javax.sql.DataSource;
 
 @Configuration
 @Import({PkmnApplication.class, ApplicationConfiguration.class})
@@ -43,7 +30,6 @@ public class SecurityConfiguration extends VaadinWebSecurity {
         http.authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                 .requestMatchers("/ping").permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/cards")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/cards-grid")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/public/**")).permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/cards").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/cards/*").permitAll()

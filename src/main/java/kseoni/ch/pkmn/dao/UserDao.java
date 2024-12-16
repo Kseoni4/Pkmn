@@ -1,8 +1,6 @@
 package kseoni.ch.pkmn.dao;
 
 import kseoni.ch.pkmn.dto.UserEntityDto;
-import kseoni.ch.pkmn.entities.AuthorityEntity;
-import kseoni.ch.pkmn.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +9,10 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class UserDao {
 
     public final PasswordEncoder passwordEncoder;
