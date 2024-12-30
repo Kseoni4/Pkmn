@@ -1,0 +1,26 @@
+services:
+  pkmn-main-app:
+    image: pkmn-main-app:latest
+    environment:
+      - CONFIG_SERVER_URL=pkmn-config-server
+    build:
+      dockerfile: Dockerfile-MainApp
+      context: ../
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: "no"
+    ports:
+      - "8080:8080"
+    depends_on:
+      pkmn-database:
+        condition: 'service_healthy'
+      pkmn-redis:
+        condition: 'service_started'
+      pkmn-config-server:
+        condition: 'service_started'
+      pkmn-authorization-server:
+        condition: 'service_started'
+    volumes:
+      - ./db:/pkmn-db-migrations
+    networks:
+      - pkmn-net

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/pkmn-api-pokemontcg-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-authorization-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-main-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-main-app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-rest-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pkmn-rest/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-shared-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pkmn-shared/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

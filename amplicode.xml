@@ -6,9 +6,24 @@
   </component>
   <component name="AmplicodePersistenceUnitSettings">
     <persistence-units>
-      <persistence-unit moduleName="Pkmn" name="Default">
+      <persistence-unit moduleName="pkmn-authorization-server" name="Default">
         <packages>
-          <package value="kseoni.ch.pkmn.entities" />
+          <package value="ch.kseoni.pkmn.authserver.config" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="pkmn-rest-api" name="Default">
+        <packages>
+          <package value="ch.kseoni.pkmn" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="pkmn-shared" name="Default" />
+      <persistence-unit moduleName="pkmn-core" name="Default" />
+      <persistence-unit moduleName="pkmn-shared-security" name="Default" />
+      <persistence-unit moduleName="pkmn-api-pokemontcg-client" name="Default" />
+      <persistence-unit moduleName="Pkmn" name="Default" />
+      <persistence-unit moduleName="pkmn" name="Default">
+        <packages>
+          <package value="kseoni.ch.pkmn" />
         </packages>
       </persistence-unit>
     </persistence-units>

@@ -1,0 +1,22 @@
+services:
+  pkmn-config-server:
+    image: pkmn-config-server:latest
+    environment:
+      - MIGRATIONS_PATH=pkmn-db-migrations
+      - ISSUER_URL=172.16.1.2
+      - MAIN_APP_REDIRECT_URL=localhost
+      - DATABASE_URL=pkmn-database
+      - REDIS_HOST=pkmn-redis
+      - root_dir=/
+    build:
+      dockerfile: Dockerfile-ConfigServer
+      context: ../
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: "no"
+    volumes:
+      - ./pkmn-config-repo:/config-repo
+    ports:
+      - "8888:8888"
+    networks:
+      - pkmn-net

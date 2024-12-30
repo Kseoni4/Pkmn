@@ -1,0 +1,21 @@
+services:
+  pkmn-authorization-server:
+    image: pkmn-authorization-server:latest
+    environment:
+      - CONFIG_SERVER_URL=pkmn-config-server
+    build:
+      dockerfile: Dockerfile-Authorization-server
+      context: ../
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: "no"
+    ports:
+      - "9000:9000"
+    depends_on:
+      pkmn-database:
+        condition: 'service_healthy'
+      pkmn-config-server:
+        condition: 'service_started'
+    networks:
+      pkmn-net:
+        ipv4_address: 172.16.1.2

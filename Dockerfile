@@ -2,7 +2,7 @@ FROM maven:latest AS build
 WORKDIR /build
 
 COPY pom.xml .
-COPY src ./src
+COPY pkmn-main-app/src ./src
 
 RUN mvn clean package
 
@@ -20,6 +20,6 @@ COPY --from=layers /application/dependencies/ ./
 COPY --from=layers /application/spring-boot-loader/ ./
 COPY --from=layers /application/snapshot-dependencies/ ./
 COPY --from=layers /application/application/ ./
-COPY db ./db
+COPY pkmn-main-app/db ./db
 
 ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]

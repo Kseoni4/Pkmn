@@ -1,0 +1,22 @@
+services:
+  pkmn-rest-api:
+    image: pkmn-rest-api:latest
+    environment:
+      - CONFIG_SERVER_URL=pkmn-config-server
+    build:
+      dockerfile: Dockerfile-Rest-Api
+      context: ../
+      args:
+        DOCKER_BUILDKIT: 1
+    restart: "no"
+    ports:
+      - "8081:8080"
+    depends_on:
+      pkmn-database:
+        condition: service_healthy
+      pkmn-config-server:
+        condition: service_started
+      pkmn-authorization-server:
+        condition: service_started
+    networks:
+      - pkmn-net

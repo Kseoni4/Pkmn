@@ -1,0 +1,32 @@
+FROM maven:latest AS dependency-build
+
+WORKDIR /build
+
+COPY . .
+COPY ./pom.xml .
+
+RUN mvn clean install
+
+FROM maven:latest AS build
+
+COPY --from=dependency-build /root/.m2 /root/.m2
+
+COPY ./pkmn-authorization-server ./
+
+RUN mvn clean install
+
+FROM bellsoft/liberica-openjre-alpine:23.0.1 AS layers
+WORKDIR /application
+COPY --from=build /target/*.jar app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+FROM bellsoft/liberica-openjre-alpine:23.0.1
+VOLUME /tmp
+RUN adduser -S spring-user
+USER spring-user
+COPY --from=layers /application/dependencies/ ./
+COPY --from=layers /application/spring-boot-loader/ ./
+COPY --from=layers /application/snapshot-dependencies/ ./
+COPY --from=layers /application/application/ ./
+
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
